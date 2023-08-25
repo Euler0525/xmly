@@ -179,7 +179,7 @@ class Download(object):
         """
         :param audio_name: 音频名称
         :param audio_url:  音频链接
-        :return: 
+        :return:
         """
         retries = 3
         audio_name = replaceInvalidChars(audio_name)
@@ -207,12 +207,12 @@ class Download(object):
     # 并发下载音频
     async def asyncDownloadAudio(self, audio_name, audio_url, album_name, session, num=None):
         """
-        :param audio_name: 
-        :param audio_url: 
-        :param album_name: 
-        :param session: 
+        :param audio_name:
+        :param audio_url:
+        :param album_name:
+        :param session:
         :param num: 考虑专辑音频是否有序
-        :return: 
+        :return:
         """
         retries = 3
         audio_name = replaceInvalidChars(audio_name) if num is None else replaceInvalidChars(
@@ -285,10 +285,10 @@ class Ximalaya(Download):
         cookie = ""
         for c in cookies:
             cookie += f"{c['name']}={c['value']}; "
-        with open("config.json", "r", encoding="utf-8") as f:
+        with open("xmly_config.json", "r", encoding="utf-8") as f:
             config = json.load(f)
         config["cookie"] = cookie
-        with open("config.json", "w", encoding="utf-8") as f:
+        with open("xmly_config.json", "w", encoding="utf-8") as f:
             json.dump(config, f)
 
         username = self.judgeCookie(cookie)
@@ -300,10 +300,10 @@ class Ximalaya(Download):
         :return: 返回cookie和保存位置
         """
         try:
-            with open("config.json", "r", encoding="utf-8") as f:
+            with open("xmly_config.json", "r", encoding="utf-8") as f:
                 config = json.load(f)
         except FileNotFoundError:
-            with open("config.json", "w", encoding="utf-8") as f:
+            with open("xmly_config.json", "w", encoding="utf-8") as f:
                 config = \
                     {
                         "cookie": "",
@@ -315,14 +315,14 @@ class Ximalaya(Download):
             cookie = config["cookie"]
         except Exception:
             config["cookie"] = ""
-            with open("config.json", "w", encoding="utf-8") as f:
+            with open("xmly_config.json", "w", encoding="utf-8") as f:
                 json.dump(config, f)
             cookie = False
         try:
             path = config["path"]
         except Exception:
             config["path"] = "./Downloads"
-            with open("config.json", "w", encoding="utf-8") as f:
+            with open("xmly_config.json", "w", encoding="utf-8") as f:
                 json.dump(config, f)
             path = False
         return cookie, path
